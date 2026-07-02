@@ -4,8 +4,10 @@ import { useMemo } from "react";
 import { AppData } from "@/lib/types";
 import { today, formatDate, formatDateShort, formatNumber } from "@/lib/format";
 import {
+  bmiCategory,
   caloriePoints,
   caloriesForDate,
+  computeBMI,
   workoutsThisWeek,
 } from "@/lib/stats";
 import { BarChart, LineChart, Point } from "@/components/Charts";
@@ -22,6 +24,8 @@ export function Dashboard({ data }: { data: AppData }) {
     [data.bodyWeights]
   );
   const latestBw = sortedBw[sortedBw.length - 1]?.weight;
+  const bmi = computeBMI(latestBw, data.height);
+  const bmiCat = bmi !== null ? bmiCategory(bmi) : null;
 
   const calChart = useMemo(() => caloriePoints(data.meals, 7), [data.meals]);
   const bwPoints: Point[] = useMemo(
@@ -82,7 +86,14 @@ export function Dashboard({ data }: { data: AppData }) {
           <BarChart points={calChart} goal={goal} />
         </Card>
         <Card className="animate-in">
-          <SectionTitle title="Poids du corps" />
+          <SectionTitle
+            title="Poids du corps"
+            subtitle={
+              bmi !== null && bmiCat !== null
+                ? `IMC ${bmi.toFixed(1)} · ${bmiCat.label}`
+                : undefined
+            }
+          />
           <LineChart points={bwPoints} unit=" kg" />
         </Card>
       </div>

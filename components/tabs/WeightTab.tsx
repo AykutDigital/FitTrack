@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AppData, BodyWeight } from "@/lib/types";
 import { newId } from "@/lib/storage";
 import { today, formatDate, formatDateShort } from "@/lib/format";
+import { bmiCategory, computeBMI } from "@/lib/stats";
 import { LineChart, Point } from "@/components/Charts";
 import { Button, Card, EmptyState, Field, Input, SectionTitle } from "@/components/ui";
 
@@ -53,6 +54,12 @@ export function WeightTab({
   const first = points[0]?.value;
   const delta = latest !== undefined && first !== undefined ? latest - first : 0;
 
+  const setHeight = (v: string) =>
+    update((prev) => ({ ...prev, height: Math.max(0, Number(v) || 0) }));
+
+  const bmi = computeBMI(latest, data.height);
+  const cat = bmi !== null ? bmiCategory(bmi) : null;
+
   return (
     <div className="grid gap-6 lg:grid-cols-[380px_1fr]">
       <Card className="animate-in h-fit">
@@ -75,10 +82,54 @@ export function WeightTab({
           <Button onClick={add} disabled={!canAdd}>
             Enregistrer
           </Button>
+
+          <div className="mt-1 border-t border-border pt-4">
+            <Field label="Ta taille (cm) — pour l'IMC">
+              <Input
+                type="number"
+                inputMode="numeric"
+                min={0}
+                placeholder="178"
+                value={data.height || ""}
+                onChange={(e) => setHeight(e.target.value)}
+              />
+            </Field>
+          </div>
         </div>
       </Card>
 
       <div className="grid gap-6">
+        <Card className="animate-in">
+          <SectionTitle title="IMC" subtitle="Indice de masse corporelle (OMS)" />
+          {bmi === null || cat === null ? (
+            <EmptyState
+              text={
+                !data.height
+                  ? "Renseigne ta taille pour calculer ton IMC."
+                  : "Ajoute une pesée pour calculer ton IMC."
+              }
+            />
+          ) : (
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <p className="flex items-baseline gap-1">
+                  <span className="text-4xl font-bold tracking-tight" style={{ color: cat.color }}>
+                    {bmi.toFixed(1)}
+                  </span>
+                  <span className="text-sm text-text-muted">kg/m²</span>
+                </p>
+                <p className="mt-1 text-sm font-semibold" style={{ color: cat.color }}>
+                  {cat.label}
+                </p>
+                <p className="mt-0.5 text-xs text-text-muted">
+                  {latest} kg · {data.height} cm
+                </p>
+              </div>
+              <BmiScale bmi={bmi} />
+            </div>
+          )}
+        </Card>
+
         <Card className="animate-in">
           <SectionTitle
             title="Évolution du poids"
@@ -122,6 +173,36 @@ export function WeightTab({
             </div>
           )}
         </Card>
+      </div>
+    </div>
+  );
+}
+
+/** Petite jauge visuelle situant l'IMC sur l'échelle 15 → 40. */
+function BmiScale({ bmi }: { bmi: number }) {
+  const min = 15;
+  const max = 40;
+  const pct = Math.min(Math.max(((bmi - min) / (max - min)) * 100, 0), 100);
+  return (
+    <div className="w-full min-w-[180px] max-w-[260px]">
+      <div
+        className="relative h-2.5 rounded-full"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--calorie) 0%, var(--accent) 30%, var(--accent) 40%, var(--calorie) 60%, var(--danger) 100%)",
+        }}
+      >
+        <div
+          className="absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-surface bg-text"
+          style={{ left: `${pct}%` }}
+        />
+      </div>
+      <div className="mt-1.5 flex justify-between text-[10px] text-text-muted">
+        <span>15</span>
+        <span>18,5</span>
+        <span>25</span>
+        <span>30</span>
+        <span>40</span>
       </div>
     </div>
   );

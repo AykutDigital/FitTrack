@@ -32,6 +32,8 @@ export type AppData = {
   bodyWeights: BodyWeight[];
   /** objectif calorique quotidien */
   calorieGoal: number;
+  /** taille en cm (pour le calcul de l'IMC) */
+  height: number;
 };
 
 export const EMPTY_DATA: AppData = {
@@ -39,4 +41,5 @@ export const EMPTY_DATA: AppData = {
   meals: [],
   bodyWeights: [],
   calorieGoal: 2200,
+  height: 0,
 };

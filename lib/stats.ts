@@ -43,6 +43,25 @@ export function exerciseNames(data: AppData): string[] {
   );
 }
 
+/** IMC = poids (kg) / taille² (m). null si données manquantes. */
+export function computeBMI(weightKg?: number, heightCm?: number): number | null {
+  if (!weightKg || !heightCm) return null;
+  const m = heightCm / 100;
+  return weightKg / (m * m);
+}
+
+export type BMIInfo = { label: string; color: string };
+
+/** Catégorie OMS de l'IMC avec couleur associée. */
+export function bmiCategory(bmi: number): BMIInfo {
+  if (bmi < 18.5) return { label: "Insuffisance pondérale", color: "var(--calorie)" };
+  if (bmi < 25) return { label: "Corpulence normale", color: "var(--accent)" };
+  if (bmi < 30) return { label: "Surpoids", color: "var(--calorie)" };
+  if (bmi < 35) return { label: "Obésité modérée", color: "var(--danger)" };
+  if (bmi < 40) return { label: "Obésité sévère", color: "var(--danger)" };
+  return { label: "Obésité morbide", color: "var(--danger)" };
+}
+
 /** Progression : charge max par jour pour un exercice (ancien → récent). */
 export function exerciseProgress(data: AppData, exercise: string): Point[] {
   const byDate = new Map<string, number>();
