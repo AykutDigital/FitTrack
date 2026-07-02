@@ -16,6 +16,7 @@ function readStorage(): AppData {
       ...parsed,
       workouts: parsed.workouts ?? [],
       meals: parsed.meals ?? [],
+      cardio: parsed.cardio ?? [],
       bodyWeights: parsed.bodyWeights ?? [],
     };
   } catch {

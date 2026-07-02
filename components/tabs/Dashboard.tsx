@@ -47,9 +47,15 @@ export function Dashboard({ data }: { data: AppData }) {
         tag: "Repas",
         color: "var(--calorie)",
       })),
+      ...data.cardio.map((c) => ({
+        date: c.date,
+        text: `${c.activity} — ${c.duration} min · ${formatNumber(c.calories)} kcal`,
+        tag: "Cardio",
+        color: "var(--accent)",
+      })),
     ];
     return items.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 8);
-  }, [data.workouts, data.meals]);
+  }, [data.workouts, data.meals, data.cardio]);
 
   return (
     <div className="grid gap-6">

@@ -50,6 +50,7 @@ export function SettingsTab({
           ...parsed,
           workouts: parsed.workouts ?? [],
           meals: parsed.meals ?? [],
+          cardio: parsed.cardio ?? [],
           bodyWeights: parsed.bodyWeights ?? [],
         });
         flash("Données importées.");
@@ -115,7 +116,8 @@ export function SettingsTab({
         </div>
         <p className="mt-4 text-xs text-text-muted">
           {data.workouts.length} séries · {data.meals.length} repas ·{" "}
-          {data.bodyWeights.length} pesées enregistrées.
+          {data.cardio.length} cardio · {data.bodyWeights.length} pesées
+          enregistrées.
         </p>
       </Card>
 

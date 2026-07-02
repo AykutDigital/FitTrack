@@ -18,6 +18,24 @@ export type Meal = {
   calories: number;
 };
 
+export type Intensity = "faible" | "modérée" | "élevée";
+
+export type Cardio = {
+  id: string;
+  /** ISO date, format yyyy-mm-dd */
+  date: string;
+  activity: string;
+  /** durée en minutes */
+  duration: number;
+  /** distance en km (optionnel) */
+  distance?: number;
+  /** vitesse moyenne en km/h (optionnel) */
+  speed?: number;
+  intensity: Intensity;
+  /** estimation des calories brûlées (kcal) */
+  calories: number;
+};
+
 export type BodyWeight = {
   id: string;
   /** ISO date, format yyyy-mm-dd */
@@ -29,6 +47,7 @@ export type BodyWeight = {
 export type AppData = {
   workouts: Workout[];
   meals: Meal[];
+  cardio: Cardio[];
   bodyWeights: BodyWeight[];
   /** objectif calorique quotidien */
   calorieGoal: number;
@@ -39,6 +58,7 @@ export type AppData = {
 export const EMPTY_DATA: AppData = {
   workouts: [],
   meals: [],
+  cardio: [],
   bodyWeights: [],
   calorieGoal: 2200,
   height: 0,

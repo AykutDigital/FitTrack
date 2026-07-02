@@ -5,6 +5,7 @@ import { useAppData } from "@/lib/storage";
 import { useTheme } from "@/components/theme";
 import { Dashboard } from "@/components/tabs/Dashboard";
 import { WorkoutsTab } from "@/components/tabs/WorkoutsTab";
+import { CardioTab } from "@/components/tabs/CardioTab";
 import { NutritionTab } from "@/components/tabs/NutritionTab";
 import { WeightTab } from "@/components/tabs/WeightTab";
 import { SettingsTab } from "@/components/tabs/SettingsTab";
@@ -12,6 +13,7 @@ import { SettingsTab } from "@/components/tabs/SettingsTab";
 const TABS = [
   { id: "dashboard", label: "Tableau de bord" },
   { id: "workouts", label: "Entraînements" },
+  { id: "cardio", label: "Cardio" },
   { id: "nutrition", label: "Nutrition" },
   { id: "weight", label: "Poids" },
   { id: "settings", label: "Réglages" },
@@ -67,6 +69,7 @@ export default function Home() {
         <div key={tab}>
           {tab === "dashboard" && <Dashboard data={data} />}
           {tab === "workouts" && <WorkoutsTab data={data} update={update} />}
+          {tab === "cardio" && <CardioTab data={data} update={update} />}
           {tab === "nutrition" && <NutritionTab data={data} update={update} />}
           {tab === "weight" && <WeightTab data={data} update={update} />}
           {tab === "settings" && (
