@@ -8,12 +8,10 @@ export function SettingsTab({
   data,
   update,
   replaceAll,
-  account,
 }: {
   data: AppData;
   update: (fn: (prev: AppData) => AppData) => void;
   replaceAll: (next: AppData) => void;
-  account?: { email: string; onSignOut: () => void } | null;
 }) {
   const [goal, setGoal] = useState(String(data.calorieGoal));
   const [msg, setMsg] = useState<string | null>(null);
@@ -73,23 +71,6 @@ export function SettingsTab({
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      {account && (
-        <Card className="animate-in h-fit lg:col-span-2">
-          <SectionTitle
-            title="Compte"
-            subtitle="Tes données sont synchronisées sur ce compte."
-          />
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm">
-              Connecté en tant que <span className="font-semibold">{account.email}</span>
-            </p>
-            <Button variant="ghost" onClick={account.onSignOut}>
-              Déconnexion
-            </Button>
-          </div>
-        </Card>
-      )}
-
       <Card className="animate-in h-fit">
         <SectionTitle title="Objectif calorique" subtitle="Calories visées par jour." />
         <div className="flex items-end gap-3">
