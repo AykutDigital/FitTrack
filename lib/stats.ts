@@ -30,6 +30,21 @@ export function caloriePoints(meals: Meal[], n: number): Point[] {
   }));
 }
 
+/** Somme des protéines (g) pour une date donnée. */
+export function proteinForDate(meals: Meal[], date: string): number {
+  return meals
+    .filter((m) => m.date === date)
+    .reduce((sum, m) => sum + (m.protein || 0), 0);
+}
+
+/** Points protéines/jour pour le graphe en barres. */
+export function proteinPoints(meals: Meal[], n: number): Point[] {
+  return lastNDays(n).map((d) => ({
+    label: formatDateShort(d),
+    value: proteinForDate(meals, d),
+  }));
+}
+
 /** Nombre d'entraînements sur les 7 derniers jours. */
 export function workoutsThisWeek(data: AppData): number {
   const days = new Set(lastNDays(7));

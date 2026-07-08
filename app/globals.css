@@ -11,6 +11,8 @@
   --accent-soft: #d1fae5;
   --calorie: #f59e0b;
   --calorie-soft: #fef3c7;
+  --protein: #6366f1;
+  --protein-soft: #e0e7ff;
   --danger: #ef4444;
   --shadow: 0 1px 2px rgba(16, 23, 31, 0.04), 0 8px 24px rgba(16, 23, 31, 0.06);
 }
@@ -26,6 +28,8 @@
   --accent-soft: #0f2e24;
   --calorie: #fbbf24;
   --calorie-soft: #33280c;
+  --protein: #818cf8;
+  --protein-soft: #1e1b4b;
   --danger: #f87171;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.35);
 }
@@ -41,6 +45,8 @@
   --color-accent-soft: var(--accent-soft);
   --color-calorie: var(--calorie);
   --color-calorie-soft: var(--calorie-soft);
+  --color-protein: var(--protein);
+  --color-protein-soft: var(--protein-soft);
   --color-danger: var(--danger);
   --font-sans: var(--font-geist-sans), system-ui, sans-serif;
 }

@@ -16,6 +16,18 @@ export type Meal = {
   date: string;
   name: string;
   calories: number;
+  /** protéines en grammes */
+  protein: number;
+};
+
+/** Aliment enregistré dans la bibliothèque (« aliments habituels »). */
+export type FoodItem = {
+  id: string;
+  name: string;
+  /** calories pour une portion (kcal) */
+  calories: number;
+  /** protéines pour une portion (g) */
+  protein: number;
 };
 
 export type Intensity = "faible" | "modérée" | "élevée";
@@ -49,8 +61,12 @@ export type AppData = {
   meals: Meal[];
   cardio: Cardio[];
   bodyWeights: BodyWeight[];
+  /** bibliothèque d'aliments habituels */
+  foods: FoodItem[];
   /** objectif calorique quotidien */
   calorieGoal: number;
+  /** objectif protéines quotidien (g) */
+  proteinGoal: number;
   /** taille en cm (pour le calcul de l'IMC) */
   height: number;
 };
@@ -60,6 +76,8 @@ export const EMPTY_DATA: AppData = {
   meals: [],
   cardio: [],
   bodyWeights: [],
+  foods: [],
   calorieGoal: 2200,
+  proteinGoal: 140,
   height: 0,
 };

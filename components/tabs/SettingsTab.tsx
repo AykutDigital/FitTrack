@@ -14,13 +14,15 @@ export function SettingsTab({
   replaceAll: (next: AppData) => void;
 }) {
   const [goal, setGoal] = useState(String(data.calorieGoal));
+  const [protGoal, setProtGoal] = useState(String(data.proteinGoal));
   const [msg, setMsg] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
 
   const saveGoal = () => {
-    const v = Math.max(0, Math.round(Number(goal) || 0));
-    update((prev) => ({ ...prev, calorieGoal: v }));
-    flash("Objectif enregistré.");
+    const cal = Math.max(0, Math.round(Number(goal) || 0));
+    const prot = Math.max(0, Math.round(Number(protGoal) || 0));
+    update((prev) => ({ ...prev, calorieGoal: cal, proteinGoal: prot }));
+    flash("Objectifs enregistrés.");
   };
 
   const flash = (m: string) => {
@@ -52,6 +54,7 @@ export function SettingsTab({
           meals: parsed.meals ?? [],
           cardio: parsed.cardio ?? [],
           bodyWeights: parsed.bodyWeights ?? [],
+          foods: parsed.foods ?? [],
         });
         flash("Données importées.");
       } catch {
@@ -65,6 +68,7 @@ export function SettingsTab({
     if (confirm("Effacer toutes les données ? Cette action est irréversible.")) {
       replaceAll(EMPTY_DATA);
       setGoal(String(EMPTY_DATA.calorieGoal));
+      setProtGoal(String(EMPTY_DATA.proteinGoal));
       flash("Toutes les données ont été effacées.");
     }
   };
@@ -72,7 +76,7 @@ export function SettingsTab({
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <Card className="animate-in h-fit">
-        <SectionTitle title="Objectif calorique" subtitle="Calories visées par jour." />
+        <SectionTitle title="Objectifs quotidiens" subtitle="Calories et protéines visées par jour." />
         <div className="flex items-end gap-3">
           <Field label="kcal / jour">
             <Input
@@ -81,6 +85,15 @@ export function SettingsTab({
               min={0}
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
+            />
+          </Field>
+          <Field label="protéines (g) / jour">
+            <Input
+              type="number"
+              inputMode="numeric"
+              min={0}
+              value={protGoal}
+              onChange={(e) => setProtGoal(e.target.value)}
             />
           </Field>
           <Button onClick={saveGoal}>Enregistrer</Button>
@@ -116,8 +129,8 @@ export function SettingsTab({
         </div>
         <p className="mt-4 text-xs text-text-muted">
           {data.workouts.length} séries · {data.meals.length} repas ·{" "}
-          {data.cardio.length} cardio · {data.bodyWeights.length} pesées
-          enregistrées.
+          {data.cardio.length} cardio · {data.bodyWeights.length} pesées ·{" "}
+          {data.foods.length} aliments enregistrés.
         </p>
       </Card>
 

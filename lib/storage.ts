@@ -18,6 +18,7 @@ function readStorage(): AppData {
       meals: parsed.meals ?? [],
       cardio: parsed.cardio ?? [],
       bodyWeights: parsed.bodyWeights ?? [],
+      foods: parsed.foods ?? [],
     };
   } catch {
     return EMPTY_DATA;

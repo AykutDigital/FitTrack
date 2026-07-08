@@ -43,7 +43,7 @@ export function Dashboard({ data }: { data: AppData }) {
       })),
       ...data.meals.map((m) => ({
         date: m.date,
-        text: `${m.name} — ${formatNumber(m.calories)} kcal`,
+        text: `${m.name} — ${formatNumber(m.calories)} kcal · ${m.protein ?? 0} g`,
         tag: "Repas",
         color: "var(--calorie)",
       })),
